@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Abu OS | فیملی مینیجر</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">✨ Abu <span>OS</span></div>
+    <p class="side-sub">اسمارٹ فیملی مینیجر</p>
+    <button class="nav active" data-section="dashboard">🏠 ڈیش بورڈ</button>
+    <button class="nav" data-section="finance">💰 آمدنی اور اخراجات</button>
+    <button class="nav" data-section="tasks">✅ میرے کام</button>
+    <button class="nav" data-section="notes">📝 اہم نوٹس</button>
+    <div class="side-bottom">آپ کے گھر کا ڈیجیٹل اسسٹنٹ ❤️</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="muted">خوش آمدید</p>
+        <h2>السلام علیکم ! 👋</h2>
+      </div>
+      <button class="btn purple" id="pdfBtn">📄 PDF رپورٹ</button>
+    </header>
+
+    <section id="dashboard" class="section">
+      <div class="hero">
+        <div>
+          <span class="pill">SMART FAMILY MANAGER</span>
+          <h1>ہر چیز کا حساب،<br>ایک ہی جگہ!</h1>
+          <p>اپنے گھر کے اخراجات، ضروری کام اور اہم نوٹس آسانی سے منظم کریں۔</p>
+          <button class="btn white" data-open="finance">+ نیا مالی ریکارڈ</button>
+        </div>
+        <div class="hero-emoji">🏡</div>
+      </div>
+
+      <div class="stats">
+        <article class="stat green"><span>کل آمدنی</span><h2 id="incomeTotal">Rs 0</h2><small>درج شدہ آمدنی</small></article>
+        <article class="stat red"><span>کل اخراجات</span><h2 id="expenseTotal">Rs 0</h2><small>درج شدہ اخراجات</small></article>
+        <article class="stat blue"><span>باقی رقم</span><h2 id="balanceTotal">Rs 0</h2><small>آمدنی − اخراجات</small></article>
+        <article class="stat orange"><span>نامکمل کام</span><h2 id="pendingTotal">0</h2><small>ابھی باقی ہیں</small></article>
+      </div>
+
+      <div class="grid">
+        <article class="panel">
+          <h3>📊 مالی خلاصہ</h3>
+          <div class="bar-row"><span>آمدنی</span><div class="bar"><i id="incomeBar"></i></div></div>
+          <div class="bar-row"><span>اخراجات</span><div class="bar"><i id="expenseBar" class="expense-bar"></i></div></div>
+          <p class="muted" id="chartText">اپنا پہلا ریکارڈ شامل کریں۔</p>
+        </article>
+        <article class="panel">
+          <h3>✅ اگلے کام</h3>
+          <div id="dashboardTasks"></div>
+          <button class="btn purple" data-open="tasks">کام منظم کریں</button>
+        </article>
+      </div>
+      <article class="panel">
+        <h3>🕘 حالیہ مالی ریکارڈ</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>تفصیل</th><th>قسم</th><th>تاریخ</th><th>رقم</th></tr></thead>
+            <tbody id="recentRows"></tbody>
+          </table>
+        </div>
+        <p class="muted" id="recentEmpty">ابھی کوئی ریکارڈ موجود نہیں۔</p>
+      </article>
+    </section>
+
+    <section id="finance" class="section hidden">
+      <h1>💰 آمدنی اور اخراجات</h1>
+      <p class="muted">ہر مالی انٹری کا ریکارڈ رکھیں۔</p>
+      <form id="transactionForm" class="panel form-grid">
+        <label>تفصیل<input id="txTitle" required maxlength="100" placeholder="مثلاً گھر کا راشن"></label>
+        <label>رقم (روپے)<input id="txAmount" type="number" min="1" step="0.01" required placeholder="مثلاً 2500"></label>
+        <label>قسم<select id="txType"><option value="expense">اخراجات</option><option value="income">آمدنی</option></select></label>
+        <label>کیٹیگری<input id="txCategory" maxlength="60" placeholder="مثلاً راشن، تنخواہ"></label>
+        <label>تاریخ<input id="txDate" type="date" required></label>
+        <button class="btn purple full" type="submit">＋ ریکارڈ محفوظ کریں</button>
+      </form>
+      <article class="panel">
+        <div class="panel-head"><h3>تمام ریکارڈ</h3><input id="txSearch" placeholder="تلاش کریں..."></div>
+        <div class="table-wrap">
+          <table><thead><tr><th>تفصیل</th><th>قسم</th><th>کیٹیگری</th><th>تاریخ</th><th>رقم</th><th>عمل</th></tr></thead>
+          <tbody id="transactionRows"></tbody></table>
+        </div>
+        <p class="muted" id="txEmpty">کوئی ریکارڈ نہیں۔</p>
+      </article>
+    </section>
+
+    <section id="tasks" class="section hidden">
+      <h1>✅ کام اور یاددہانیاں</h1>
+      <p class="muted">ضروری کام لکھیں اور مکمل ہونے پر نشان لگائیں۔</p>
+      <form id="taskForm" class="panel inline-form">
+        <input id="taskTitle" required maxlength="150" placeholder="مثلاً بجلی کا بل جمع کروانا">
+        <input id="taskDate" type="date" aria-label="کام کی تاریخ">
+        <button class="btn purple" type="submit">+ کام شامل کریں</button>
+      </form>
+      <article class="panel"><div id="taskList"></div><p id="taskEmpty" class="muted">ابھی کوئی کام شامل نہیں کیا گیا۔</p></article>
+    </section>
+
+    <section id="notes" class="section hidden">
+      <h1>📝 اہم نوٹس</h1>
+      <p class="muted">ضروری باتیں اور یاد رکھنے والی معلومات یہاں محفوظ کریں۔</p>
+      <form id="noteForm" class="panel">
+        <label>نوٹ کا عنوان<input id="noteTitle" required maxlength="100" placeholder="عنوان"></label>
+        <label>تفصیل<textarea id="noteBody" required maxlength="3000" rows="5" placeholder="اپنا نوٹ یہاں لکھیں..."></textarea></label>
+        <button class="btn purple" type="submit">نوٹ محفوظ کریں</button>
+      </form>
+      <div id="noteList" class="notes-grid"></div>
+    </section>
+
+    <footer>Abu G <span>•</span> آپ کے گھر کے لیے محبت سے بنایا گیا ❤️</footer>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
